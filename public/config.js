@@ -1,3 +1,0 @@
-window.__AIMENTOR_CONFIG__ = {
-  GEMINI_API_KEY: "AIzaSyAf-zeQ-q0Zc5o5WSKHbQZ7LS2VSJdgPP4"
-};

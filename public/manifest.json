@@ -1,26 +1,22 @@
 {
   "manifest_version": 3,
-  "name": "Student Buddy",
-  "version": "1.0",
-  "description": "AI mentor that helps you with coding problems from any platform.",
-  "permissions": ["storage", "activeTab", "scripting"],
-  "host_permissions": [
-    "https://*/*",
-    "http://*/*",
-    "https://generativelanguage.googleapis.com/*"
-  ],
+  "name": "AiMentor - Coding Assistant",
+  "version": "1.0.0",
+  "description": "AI-powered coding mentor for DSA problems with hints and solutions",
+  "permissions": ["storage", "activeTab"],
   "action": {
     "default_popup": "index.html",
-    "default_icon": "icon.png"
+    "default_title": "AiMentor"
   },
-  "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'; connect-src https://generativelanguage.googleapis.com https://firebase.googleapis.com https://firestore.googleapis.com;"
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
   },
   "content_scripts": [
     {
-      "matches": ["https://*/*", "http://*/*"],
-      "js": ["contentScript.js"],
-      "run_at": "document_idle"
+      "matches": ["https://leetcode.com/*", "https://www.hackerrank.com/*", "https://codeforces.com/*"],
+      "js": ["contentScript.js"]
     }
   ]
 }

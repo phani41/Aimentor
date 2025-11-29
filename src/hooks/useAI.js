@@ -9,6 +9,8 @@ export function useAI() {
 
     try {
       const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+      console.log('Environment variables:', import.meta.env);
+      console.log('API Key:', API_KEY);
       if (!API_KEY) throw new Error("Missing Gemini API key");
 
       const isSpecificRequest =
@@ -23,7 +25,7 @@ export function useAI() {
         : `You are an AI coding mentor. Provide hint ${level} for: "${problem}"`;
 
       const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -31,8 +33,23 @@ export function useAI() {
         }
       );
 
+      if (!res.ok) {
+        const errorData = await res.json();
+        console.error('API Error:', res.status, errorData);
+        if (res.status === 403) {
+          return "API key invalid or quota exceeded. Please check your Gemini API key.";
+        }
+        return `API Error: ${res.status} - ${errorData.error?.message || 'Unknown error'}`;
+      }
+
       const data = await res.json();
-      return data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "No response generated.";
+      console.log('Full API response:', data);
+      const text = data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+      if (!text) {
+        console.error('No text found in response:', data);
+        return "No response generated. The AI might have filtered the content.";
+      }
+      return text;
       
     } catch (error) {
       return error.message;

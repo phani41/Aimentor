@@ -11,16 +11,9 @@ export function useAI() {
       const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
       if (!API_KEY) throw new Error("Missing Gemini API key");
 
-      const isSpecificRequest =
-        problem.toLowerCase().includes('give me code') ||
-        problem.toLowerCase().includes('write code') ||
-        problem.toLowerCase().includes('implement') ||
-        problem.toLowerCase().includes('solution for') ||
-        problem.toLowerCase().includes('how to solve');
-
-      const prompt = isFinal || isSpecificRequest
-        ? `You are an AI coding mentor. Provide a complete solution in ${language} for: "${problem}"`
-        : `You are an AI coding mentor. Provide hint ${level} for: "${problem}"`;
+      const prompt = isFinal
+        ? `You are an AI assistant. Provide a complete and detailed response to: "${problem}". If it's a coding problem, provide solution in ${language}. If it's a general question, answer it thoroughly.`
+        : `You are an AI assistant. Provide a helpful response (hint ${level}) to: "${problem}". Be informative and educational.`;
 
       const res = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`,

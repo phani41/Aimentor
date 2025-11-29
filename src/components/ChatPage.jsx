@@ -23,7 +23,7 @@ function ChatPage({
 
       <textarea rows={3}
         value={problem} onChange={e=>setProblem(e.target.value)}
-        placeholder="Paste your DSA problem here..."
+        placeholder="Ask me anything - coding problems, questions, or general topics..."
         className="w-full bg-gray-800 text-white p-3 border border-gray-600 rounded resize-none" />
 
       <div className="flex gap-2">
